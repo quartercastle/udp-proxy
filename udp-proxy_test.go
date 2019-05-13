@@ -21,6 +21,7 @@ func TestUDPProxy(t *testing.T) {
 		result <- b
 	}()
 
+	time.Sleep(100 * time.Millisecond)
 	sender.Write([]byte("Hello"))
 
 	select {
@@ -31,7 +32,7 @@ func TestUDPProxy(t *testing.T) {
 				"Hello", string(data),
 			)
 		}
-	case <-time.After(time.Second):
+	case <-time.After(5 * time.Second):
 		t.Error("Did not receive udp packet within given timeout")
 	}
 }
