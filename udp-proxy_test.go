@@ -27,7 +27,7 @@ func TestUDPProxy(t *testing.T) {
 	case data := <-result:
 		if string(data) != "Hello" {
 			t.Errorf(
-				"received packet did not contian expected message %s; got %s",
+				"received packet did not contain expected message %s; got %s",
 				"Hello", string(data),
 			)
 		}
