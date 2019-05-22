@@ -9,7 +9,7 @@ import (
 func TestUDPProxy(t *testing.T) {
 	receiver, _ := net.ListenPacket("udp", "127.0.0.1:50001")
 	defer receiver.Close()
-	go start("127.0.0.1:50000", "127.0.0.1:50001")
+	go dispatch("127.0.0.1:50000", "127.0.0.1:50001")
 	sender, _ := net.Dial("udp", "127.0.0.1:50000")
 	defer sender.Close()
 

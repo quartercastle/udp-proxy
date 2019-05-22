@@ -14,12 +14,18 @@ var (
 	help        *bool
 )
 
+const usage = `udp-proxy missing host and at least one distination
+
+Example:
+	udp-proxy localhost:3000 localhost:4000
+`
+
 func init() {
 	packetSize = flag.Int("packet-size", 512, "Size of packets in bytes")
 	flag.Parse()
 }
 
-func start(host string, destinations ...string) {
+func dispatch(host string, destinations ...string) {
 	var err error
 	listener, err = net.ListenPacket("udp", host)
 
@@ -77,10 +83,7 @@ func main() {
 	)
 
 	if len(os.Args) < 3 {
-		fmt.Fprint(
-			os.Stderr,
-			"udp-proxy missing <host> and at least one <distination>\n\nExample:\n\tudp-proxy localhost:3000 localhost:4000",
-		)
+		fmt.Fprintln(os.Stderr, usage)
 		os.Exit(1)
 	}
 
@@ -92,8 +95,5 @@ func main() {
 		destinations = os.Args[2:]
 	}
 
-	start(host, destinations...)
-	defer func() {
-		close()
-	}()
+	dispatch(host, destinations...)
 }
